@@ -1,0 +1,50 @@
+TAG_End__ID ::= '0x00'
+TAG_Byte__ID ::= '0x01'
+TAG_Short__ID ::= '0x02'
+TAG_Int__ID ::= '0x03'
+TAG_Long__ID ::= '0x04'
+TAG_Float__ID ::= '0x05'
+TAG_Double__ID ::= '0x06'
+TAG_Byte_Array__ID ::= '0x07'
+TAG_String__ID ::= '0x08'
+TAG_List__ID ::= '0x09'
+TAG_Compound__ID ::= '0x0a'
+TAG_Int_Array__ID ::= '0x0b'
+
+TAG ::= TAG_Byte__ID TAG_Byte__PAYLOAD
+      | TAG_Short__ID TAG_Short__PAYLOAD
+      | TAG_Int__ID TAG_Int__PAYLOAD
+      | TAG_Long__ID TAG_Long__PAYLOAD
+      | TAG_Float__ID TAG_Float__PAYLOAD
+      | TAG_Double__ID TAG_Double__PAYLOAD
+      | TAG_Byte_Array__ID TAG_Byte_Array__PAYLOAD
+      | TAG_String__ID TAG_String__PAYLOAD
+      | TAG_List__ID TAG_List__PAYLOAD
+      | TAG_Compound__ID TAG_Compound__PAYLOAD
+      | TAG_Int_Array__ID TAG_Int_Array__PAYLOAD
+
+TAG_Byte__PAYLOAD ::= 'c>'
+TAG_Short__PAYLOAD ::= 's>'
+TAG_Int__PAYLOAD ::= 'l>'
+TAG_Long__PAYLOAD ::= 'q>'
+TAG_Float__PAYLOAD ::= 'g'
+TAG_Double__PAYLOAD ::= 'G'
+TAG_Byte_Array__LENGTH ::= TAG_Int__PAYLOAD
+TAG_Byte_Array__PAYLOAD ::= TAG_Byte_Array__LENGTH TAG_Byte__PAYLOAD*
+TAG_String__LENGTH ::= TAG_Short__PAYLOAD
+TAG_String__PAYLOAD ::= TAG_String__LENGTH TAG_Byte__PAYLOAD*
+TAG_List__LENGTH ::= TAG_Int__PAYLOAD
+TAG_List__PAYLOAD ::= TAG_Byte__ID TAG_List__LENGTH TAG_Byte__PAYLOAD*
+                    | TAG_Short__ID TAG_List__LENGTH TAG_Short__PAYLOAD*
+                    | TAG_Int__ID TAG_List__LENGTH TAG_Int__PAYLOAD*
+                    | TAG_Long__ID TAG_List__LENGTH TAG_Long__PAYLOAD*
+                    | TAG_Float__ID TAG_List__LENGTH TAG_Float__PAYLOAD*
+                    | TAG_Double__ID TAG_List__LENGTH TAG_Double__PAYLOAD*
+                    | TAG_Byte_Array__ID TAG_List__LENGTH TAG_Byte_Array__PAYLOAD*
+                    | TAG_String__ID TAG_List__LENGTH TAG_String__PAYLOAD*
+                    | TAG_List__ID TAG_List__LENGTH TAG_List__PAYLOAD*
+                    | TAG_Compound__ID TAG_List__LENGTH TAG_Compound__PAYLOAD*
+                    | TAG_Int_Array__ID TAG_List__LENGTH TAG_Int_Array__PAYLOAD*
+TAG_Compound__PAYLOAD ::= TAG* TAG_End__ID
+TAG_Int_Array__LENGTH ::= TAG_Int__PAYLOAD
+TAG_Int_Array__PAYLOAD ::= TAG_Int_Array__LENGTH TAG_Int__PAYLOAD*
